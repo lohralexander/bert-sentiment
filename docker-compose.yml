@@ -4,13 +4,11 @@ services:
   sentiment-api:
     build: .
     image: sentiment-analysis-api
-    container_name: sentiment-analysis-api
     ports:
       - "8000:8000"
     volumes:
-      - .:/app
-      - model-cache:/root/.cache/huggingface  # Persist model downloads
-    command: uvicorn main:app --host 0.0.0.0 --port 8000 --reload
+      - model-cache:/root/.cache/huggingface
+    command: uvicorn app:app --host 0.0.0.0 --port 8000
     environment:
       - PYTHONUNBUFFERED=1
     restart: unless-stopped
@@ -21,4 +19,4 @@ services:
       retries: 3
 
 volumes:
-  model-cache:  # Named volume for model cache
+  model-cache:
